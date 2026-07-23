@@ -1,9 +1,12 @@
 import ollama
 from memory.memory import save_memory, get_memory
+from internet.search import search_web
 
 def think(user):
+
     user = user.lower()
 
+    # Memory
     if "my name is" in user:
         name = user.replace("my name is", "").strip()
         save_memory("name", name)
@@ -17,15 +20,25 @@ def think(user):
         else:
             return "I don't know your name yet."
 
-    # Agar memory command nahi hai, to AI se pucho
-    response = ollama.chat(
-        model="qwen2.5:1.5b",
-        messages=[
-            {
-                "role": "user",
-                "content": user
-            }
-        ]
-    )
+    # AI
+    try:
+        response = ollama.chat(
+            model="qwen2.5:1.5b",
+            messages=[
+                {
+                    "role": "user",
+                    "content": user
+                }
+            ]
+        )
 
-    return response["message"]["content"]
+        return response["message"]["content"]
+
+    # Internet Backup
+    except Exception:
+        result = search_web(user)
+
+        if result:
+            return result
+
+        return "Sorry, I couldn't find an answer."
