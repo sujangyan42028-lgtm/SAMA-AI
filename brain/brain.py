@@ -1,5 +1,5 @@
-import ollama
 from memory.memory import save_memory, get_memory
+from ai.chat import chat
 from internet.search import search_web
 
 def think(user):
@@ -17,28 +17,22 @@ def think(user):
 
         if name:
             return f"Your name is {name}."
-        else:
-            return "I don't know your name yet."
+        return "I don't know your name yet."
 
-    # AI
-    try:
-        response = ollama.chat(
-            model="qwen2.5:1.5b",
-            messages=[
-                {
-                    "role": "user",
-                    "content": user
-                }
-            ]
-        )
+    # Internet for latest information
+    latest_keywords = [
+        "today",
+        "latest",
+        "news",
+        "weather",
+        "current",
+        "live"
+    ]
 
-        return response["message"]["content"]
-
-    # Internet Backup
-    except Exception:
+    if any(word in user for word in latest_keywords):
         result = search_web(user)
-
         if result:
             return result
 
-        return "Sorry, I couldn't find an answer."
+    # AI
+    return chat(user)
