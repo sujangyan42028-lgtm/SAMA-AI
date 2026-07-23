@@ -10,7 +10,6 @@ print("=" * 40)
 speak("Hello Sahil. I am SAMA.")
 
 while True:
-
     user = listen()
 
     if user == "":
