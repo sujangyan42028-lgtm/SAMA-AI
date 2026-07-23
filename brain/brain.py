@@ -1,6 +1,8 @@
 from memory.memory import save_memory, get_memory
-from ai.chat import chat
+from ai.chat import chat_stream
 from internet.search import search_web
+from skills.calculator import calculate
+from skills.opener import open_app
 
 def think(user):
 
@@ -19,7 +21,19 @@ def think(user):
             return f"Your name is {name}."
         return "I don't know your name yet."
 
-    # Internet for latest information
+    # Open App Skill
+    app = open_app(user)
+
+    if app:
+        return app
+
+    # Calculator Skill
+    calc = calculate(user)
+
+    if calc:
+        return calc
+
+    # Internet
     latest_keywords = [
         "today",
         "latest",
@@ -35,4 +49,4 @@ def think(user):
             return result
 
     # AI
-    return chat(user)
+    return chat_stream(user)

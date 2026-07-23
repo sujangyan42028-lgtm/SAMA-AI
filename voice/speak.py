@@ -4,7 +4,7 @@ import pygame
 import os
 import uuid
 
-VOICE = "en-US-GuyNeural"
+VOICE = "en-IN-NeerjaNeural"    # Indian female voice
 
 pygame.mixer.init()
 
