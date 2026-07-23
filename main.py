@@ -10,6 +10,8 @@ print("=" * 40)
 speak("Hello Sahil. I am SAMA.")
 
 while True:
+
+    print("🎤 Listening...")
     user = listen()
 
     if user == "":
@@ -19,10 +21,15 @@ while True:
         speak("Goodbye Sahil.")
         break
 
+    print("⚙️ Checking Skills...")
     action = execute(user)
 
     if action:
+        print("🔊 Speaking...")
         speak(action)
     else:
+        print("🧠 Thinking...")
         answer = think(user)
+
+        print("🔊 Speaking...")
         speak(answer)

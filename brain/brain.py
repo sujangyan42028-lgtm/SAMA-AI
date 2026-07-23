@@ -1,12 +1,17 @@
 from memory.memory import save_memory, get_memory
 from ai.chat import chat_stream
 from internet.search import search_web
-from skills.calculator import calculate
+from skills.browser import open_website
+from skills.google import google_search
 from skills.opener import open_app
+from skills.calculator import calculate
 
 def think(user):
 
     user = user.lower()
+
+    # Debug
+    print("You said:", user)
 
     # Memory
     if "my name is" in user:
@@ -21,15 +26,23 @@ def think(user):
             return f"Your name is {name}."
         return "I don't know your name yet."
 
-    # Open App Skill
-    app = open_app(user)
+    # Google Search
+    google = google_search(user)
+    if google:
+        return google
 
+    # Browser
+    website = open_website(user)
+    if website:
+        return website
+
+    # Open App
+    app = open_app(user)
     if app:
         return app
 
-    # Calculator Skill
+    # Calculator
     calc = calculate(user)
-
     if calc:
         return calc
 

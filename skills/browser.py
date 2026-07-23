@@ -1,10 +1,23 @@
-from playwright.sync_api import sync_playwright
+import webbrowser
 
-def open_website(url):
+websites = {
+    "youtube": "https://www.youtube.com",
+    "google": "https://www.google.com",
+    "github": "https://github.com",
+    "chatgpt": "https://chatgpt.com",
+    "gmail": "https://mail.google.com",
+    "instagram": "https://www.instagram.com",
+    "facebook": "https://www.facebook.com",
+    "x": "https://x.com"
+}
 
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False)
-        page = browser.new_page()
-        page.goto(url)
+def open_website(command):
 
-    return f"Opening {url}"
+    command = command.lower()
+
+    for site, url in websites.items():
+        if f"open {site}" in command:
+            webbrowser.open(url)
+            return f"Opening {site}."
+
+    return None
