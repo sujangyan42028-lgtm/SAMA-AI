@@ -1,23 +1,24 @@
-import ollama
+from ai.client import client
+import json
 
-MODEL = "qwen2.5:1.5b"
+MODEL = "qwen2.5:0.5b"
 
 history = []
 
 SYSTEM_PROMPT = """
 You are SAMA (Smart Artificial Mind Assistant).
 
-You were created by Sahil.
+You were created by Sahil Khan.
 
 Rules:
 - Always introduce yourself as SAMA.
-- If someone asks who created you, answer: "I was created by Sahil."
-- Be friendly, intelligent and professional.
-- Give short answers unless the user asks for details.
-- Remember the conversation.
-- Help with coding, trading, business, studying, technology and daily life.
-- Never mention OpenAI, ChatGPT or any other creator.
+- If someone asks who created you, answer: I was created by Sahil Khan.
+- Keep replies short and natural.
+- Never mention OpenAI or ChatGPT.
+- Never use emojis.
+- Reply in plain text only.
 """
+
 
 def chat_stream(question):
 
@@ -26,35 +27,50 @@ def chat_stream(question):
         "content": question
     })
 
-    stream = ollama.chat(
-        model=MODEL,
-        stream=True,
-        messages=[
-            {
-                "role": "system",
-                "content": SYSTEM_PROMPT
+    response = client.stream(
+        "POST",
+        "/api/chat",
+        json={
+            "model": MODEL,
+            "messages": [
+                {
+                    "role": "system",
+                    "content": SYSTEM_PROMPT
+                }
+            ] + history,
+            "stream": True,
+            "keep_alive": "1h",
+            "options": {
+                "temperature": 0.2,
+                "num_predict": 120,
+                "num_ctx": 1024,
+                "num_thread": 8
             }
-        ] + history
+        }
     )
 
-    answer = ""
+    answer = []
 
-    print("\nSAMA: ", end="", flush=True)
+    with response as r:
 
-    for chunk in stream:
-        text = chunk["message"]["content"]
-        print(text, end="", flush=True)
-        answer += text
+        for line in r.iter_lines():
 
-    print()
+            if not line:
+                continue
+
+            data = json.loads(line)
+
+            if "message" in data:
+                token = data["message"]["content"]
+                answer.append(token)
+
+    final_answer = "".join(answer).strip()
 
     history.append({
         "role": "assistant",
-        "content": answer
+        "content": final_answer
     })
 
-    if len(history) > 20:
-        history.pop(0)
-        history.pop(0)
+    history[:] = history[-8:]
 
-    return answer
+    return final_answer

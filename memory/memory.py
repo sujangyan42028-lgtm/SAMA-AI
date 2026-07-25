@@ -1,24 +1,35 @@
 import json
 import os
 
-FILE = "memory.json"
+FILE = "memory/long_memory.json"
 
-def save_memory(key, value):
-    data = {}
 
-    if os.path.exists(FILE):
-        with open(FILE, "r") as f:
-            data = json.load(f)
+def load_memory():
+
+    if not os.path.exists(FILE):
+        return {}
+
+    with open(FILE, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def save_memory(data):
+
+    with open(FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=4)
+
+
+def remember(key, value):
+
+    data = load_memory()
 
     data[key] = value
 
-    with open(FILE, "w") as f:
-        json.dump(data, f)
+    save_memory(data)
 
-def get_memory(key):
-    if os.path.exists(FILE):
-        with open(FILE, "r") as f:
-            data = json.load(f)
-            return data.get(key)
 
-    return None
+def recall(key):
+
+    data = load_memory()
+
+    return data.get(key)

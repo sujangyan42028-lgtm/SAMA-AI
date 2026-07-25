@@ -1,23 +1,19 @@
 import os
 
+APPS = {
+    "open notepad": ("notepad", "Opening Notepad..."),
+    "open calculator": ("calc", "Opening Calculator..."),
+    "open paint": ("mspaint", "Opening Paint..."),
+    "open command prompt": ("start cmd", "Opening Command Prompt..."),
+}
+
 def execute(command):
 
-    command = command.lower()
+    command = command.lower().strip()
 
-    if command == "open notepad":
-        os.system("notepad")
-        return "Opening Notepad..."
-
-    elif command == "open calculator":
-        os.system("calc")
-        return "Opening Calculator..."
-
-    elif command == "open paint":
-        os.system("mspaint")
-        return "Opening Paint..."
-
-    elif command == "open command prompt":
-        os.system("start cmd")
-        return "Opening Command Prompt..."
+    if command in APPS:
+        app, message = APPS[command]
+        os.system(app)
+        return message
 
     return None
