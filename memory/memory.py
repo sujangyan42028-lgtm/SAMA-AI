@@ -1,10 +1,10 @@
 import json
 import os
 
-FILE = "memory/long_memory.json"
+FILE = "memory/memory.json"
 
 
-def load_memory():
+def load():
 
     if not os.path.exists(FILE):
         return {}
@@ -13,7 +13,7 @@ def load_memory():
         return json.load(f)
 
 
-def save_memory(data):
+def save(data):
 
     with open(FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=4)
@@ -21,15 +21,29 @@ def save_memory(data):
 
 def remember(key, value):
 
-    data = load_memory()
+    data = load()
 
     data[key] = value
 
-    save_memory(data)
+    save(data)
 
 
 def recall(key):
 
-    data = load_memory()
+    data = load()
 
     return data.get(key)
+
+
+def forget(key):
+
+    data = load()
+
+    if key in data:
+        del data[key]
+        save(data)
+
+
+def clear_memory():
+
+    save({})
