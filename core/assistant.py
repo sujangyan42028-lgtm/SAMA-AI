@@ -2,83 +2,219 @@ import time
 
 from core.response import get_response
 from core.session import Session
+from core.memory import (
+    remember,
+    recall,
+    forget,
+    get_all_memory
+)
 
 from wakeword.wake import wait_for_wake_word
 
 from voice.listen import listen
-from voice.speak import speak, speak_async, stop_speaking
+from voice.speak import speak, stop_speaking
 
 from automation.automation import execute
 
+window = None
 
-def run():
+
+def set_window(win):
+    global window
+    window = win
+
+
+def run(gui=None):
+
+    global window
+
+    if gui is not None:
+        window = gui
 
     session = Session()
 
-    speak("SAMA version 8 initialized.")
+    from config import VERSION
+
+    speak(f"{VERSION} initialized.")
 
     while True:
 
-        # Wake word sirf tab jab session inactive ho
         if not session.active:
+
+            if window:
+                window.sleep()
+
             wait_for_wake_word()
+
             session.start()
 
-        start = time.time()
+            if window:
+                window.ready()
 
-        user = listen()
+            speak("Haan Sahil, bolo.")
 
-        print(f"🎤 Listen Time: {time.time() - start:.2f} sec")
+        while session.active:
 
-        # Agar kuch nahi suna
-        if not user:
+            if window:
+                window.listening()
 
-            if session.expired():
-                session.stop()
-                print("💤 Session Ended")
-                speak("Going to sleep.")
+            start = time.time()
 
-            continue
+            user = listen()
 
-        session.update()
+            print(f"🎤 Listen Time: {time.time()-start:.2f} sec")
 
-        user = user.strip().lower()
+            if not user:
 
-        # Stop Speaking
-        if user == "stop":
-            stop_speaking()
-            continue
+                if session.expired():
 
-        # Exit
-        if user in ["take care", "goodbye", "exit"]:
+                    print("💤 Session Ended")
 
-            speak("Goodbye Sahil.")
-            break
+                    if window:
+                        window.sleep()
 
-        # Automation
-        start = time.time()
+                    speak("Theek hai, main sleep mode me ja rahi hoon.")
 
-        action = execute(user)
+                    session.stop()
 
-        if action:
+                    break
 
-            print(f"⚙️ Action Time: {time.time() - start:.2f} sec")
+                continue
 
-            speak(action)
+            session.update()
 
-            continue
+            user = user.strip().lower()
 
-        print(f"⚙️ Action Time: {time.time() - start:.2f} sec")
+            if window:
+                window.add_message("You", user)
 
-        # AI
-        start = time.time()
+            # =========================
+            # MEMORY
+            # =========================
 
-        answer = get_response(user)
+            if user.startswith("remember"):
 
-        think_time = time.time() - start
+                text = user.replace("remember", "", 1).strip()
 
-        print("=" * 40)
-        print(f"🧠 AI Response Time : {think_time:.2f} sec")
-        print("=" * 40)
+                if ":" in text:
 
-        speak_async(answer)
+                    key, value = text.split(":", 1)
+
+                    remember(
+                        key.strip(),
+                        value.strip()
+                    )
+
+                    answer = (
+                        f"I will remember that "
+                        f"{key.strip()} is {value.strip()}."
+                    )
+
+                    if window:
+                        window.add_message("SAMA", answer)
+                        window.speaking()
+
+                    speak(answer)
+
+                    if window:
+                        window.ready()
+
+                    continue
+
+            if user.startswith("what is"):
+
+                key = user.replace(
+                    "what is",
+                    "",
+                    1
+                ).strip()
+
+                value = recall(key)
+
+                if value:
+                    answer = f"{key} is {value}."
+                else:
+                    answer = "I don't remember that yet."
+
+                if window:
+                    window.add_message("SAMA", answer)
+                    window.speaking()
+
+                speak(answer)
+
+                if window:
+                    window.ready()
+
+                continue
+            # =========================
+            # STOP SPEAKING
+            # =========================
+
+            if user == "stop":
+
+                stop_speaking()
+
+                if window:
+                    window.ready()
+
+                continue
+
+            # =========================
+            # EXIT
+            # =========================
+
+            if user in ["take care", "goodbye", "exit"]:
+
+                if window:
+                    window.sleep()
+
+                speak("Goodbye Sahil.")
+
+                return
+
+            # =========================
+            # THINKING
+            # =========================
+
+            if window:
+                window.thinking()
+
+            start = time.time()
+
+            action = execute(user)
+
+            print(f"⚙️ Action Time: {time.time()-start:.2f} sec")
+
+            if action:
+
+                if window:
+                    window.add_message("SAMA", action)
+                    window.speaking()
+
+                speak(action)
+
+                if window:
+                    window.ready()
+
+                continue
+
+            # =========================
+            # AI RESPONSE
+            # =========================
+
+            start = time.time()
+
+            answer = get_response(user)
+
+            print("=" * 40)
+            print(f"🧠 AI Response Time : {time.time()-start:.2f} sec")
+            print("=" * 40)
+
+            if window:
+                window.add_message("SAMA", answer)
+                window.speaking()
+
+            speak(answer)
+
+            if window:
+                window.ready()

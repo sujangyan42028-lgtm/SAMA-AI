@@ -1,32 +1,23 @@
 from ai.client import client
 from memory.conversation import remember, recall
+from ai.personality import SYSTEM_PROMPT
+from brain.knowledge import learn
 import json
+from config import MODEL, OLLAMA_URL
 
-MODEL = "qwen2.5:0.5b"
 
 history = []
-
-SYSTEM_PROMPT = """
-You are SAMA.
-Created by Sahil Khan.
-
-Rules:
-- Keep replies short.
-- Never mention ChatGPT or OpenAI.
-- Reply in plain text.
-"""
 
 
 def chat_stream(question):
 
-    question = question.strip()
+    original_question = question.strip()
 
     history.append({
         "role": "user",
-        "content": question
+        "content": original_question
     })
 
-    # Load previous conversations
     past = recall()
 
     messages = [
@@ -36,8 +27,8 @@ def chat_stream(question):
         }
     ]
 
-    # Add old conversations
-    for chat in past[-10:]:
+    # Last 3 conversations
+    for chat in past[-3:]:
 
         messages.append({
             "role": "user",
@@ -49,8 +40,7 @@ def chat_stream(question):
             "content": chat["assistant"]
         })
 
-    # Add current conversation
-    messages += history
+    messages.extend(history)
 
     response = client.stream(
         "POST",
@@ -61,12 +51,13 @@ def chat_stream(question):
             "stream": True,
             "keep_alive": "1h",
             "options": {
-                "temperature": 0.2,
-                "num_predict": 50,
+                "temperature": 0.1,
+                "num_predict": 35,
                 "num_ctx": 512,
                 "num_thread": 8,
                 "top_k": 20,
-                "top_p": 0.8
+                "top_p": 0.9,
+                "repeat_penalty": 1.11
             }
         }
     )
@@ -95,7 +86,15 @@ def chat_stream(question):
     # Keep only last 4 live messages
     history[:] = history[-4:]
 
-    # Save conversation permanently
-    remember(question, final_answer)
+    # Save conversation
+    remember(original_question, final_answer)
+
+    # Auto Learn
+    if (
+        len(final_answer) > 25
+        and "mujhe nahi pata" not in final_answer.lower()
+        and "i don't know" not in final_answer.lower()
+    ):
+        learn(original_question, final_answer)
 
     return final_answer

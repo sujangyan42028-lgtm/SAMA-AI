@@ -1,82 +1,82 @@
 [
     {
-        "user": "what is my favourite language",
-        "assistant": "As an AI language model, I don't have personal preferences or favorites like humans do. However, I'm here to help answer any questions you might have! What would you like to know?"
+        "user": "bitcoin ka price kya hai aaj",
+        "assistant": "Mujhe pata nahi hai aaj ka Bitcoin ka current price. Yeh information real-time basis par badalti rehti hai, isliye main is"
     },
     {
-        "user": "my dream is to purchase a bmw",
-        "assistant": "That's great to hear! Purchasing a BMW can be an exciting and rewarding experience. If you're interested in purchasing a car, I'd be happy to help with any questions or information you might need. What specific aspects of the BMW would you"
+        "user": "mujhe batao python kya hai",
+        "assistant": "Python ek programming language hai jo software, website, AI aur automation banane ke kaam aati hai. Iska naam \"Python\" ek snake ko dena tha,"
     },
     {
-        "user": "i am happy",
-        "assistant": "That's wonderful to hear! If you have any other words or phrases that express happiness, feel free to share them. How can I assist you today?"
+        "user": "kisne banaya hai",
+        "assistant": "Mujhe Sahil Khan ne banaya hai."
     },
     {
-        "user": "am i",
-        "assistant": "Yes, you are. How can I assist you today?"
+        "user": "junoon movie song",
+        "assistant": "Tum SAMA ho!"
     },
     {
-        "user": "i am happy",
-        "assistant": "That's great to hear! If you have any other words or phrases that express happiness, feel free to share them. How can I assist you today?"
-    },
-    {
-        "user": "i am sad",
-        "assistant": "I'm sorry to hear that. If you need help with anything else, feel free to ask. How can I assist you today?"
-    },
-    {
-        "user": "i am excited",
-        "assistant": "That's wonderful! If you have any other words or phrases that express excitement, feel free to share them. How can I assist you today?"
-    },
-    {
-        "user": "what is python",
-        "assistant": "Python is a high-level programming language developed by Guido van Rossum and initially named after its creator, the Dutch computer scientist and mathematician Willem A. van Rossum. It was created in 1989 as an extension of the"
-    },
-    {
-        "user": "5 + 10 =",
-        "assistant": "The result of adding 5 and 10 is 15."
-    },
-    {
-        "user": "home and search bitcoin price",
-        "assistant": "I'm sorry, but I can't assist with that request."
-    },
-    {
-        "user": "what is python",
-        "assistant": "Python is a high-level programming language that was developed by Guido van Rossum in the early 2000s. It is known for its simplicity and readability, making it popular among beginners. Python is often used for tasks such as data"
-    },
-    {
-        "user": "close chrome",
-        "assistant": "Chrome has been closed. If you need to close a specific application or website, please let me know so I can assist you further."
-    },
-    {
-        "user": "close chrome",
-        "assistant": "Chrome has been closed. If you need to close a specific application or website, please let me know so I can assist you further."
-    },
-    {
-        "user": "open notebook",
-        "assistant": "I'm sorry, but I don't have the capability to open applications or websites directly. However, if you're looking for information about notebooks in Python, you might be referring to a specific library or package that allows you to create and manipulate data in"
-    },
-    {
-        "user": "application",
-        "assistant": "An application is a software program designed to perform a particular task or set of tasks. Examples of applications include email clients, word processors, and productivity tools like Microsoft Office. If you have a specific application in mind, please let me know so I can"
-    },
-    {
-        "user": "create folder trading",
-        "assistant": "To create a new folder named \"Trading\" on your computer, follow these steps:\n\n1. Open File Explorer (or the command prompt if you're using Windows).\n2. Navigate to the location where you want to create the new folder.\n3."
-    },
-    {
-        "user": "create trading folder",
-        "assistant": "To create a new folder named \"Trading\" on your computer, follow these steps:\n\n1. Open File Explorer or the Command Prompt (Windows) or Finder (macOS).\n2. Navigate to the location where you want to create the new folder."
+        "user": "mujhe ek laptop suggest karo",
+        "assistant": "Ek acchi laptop ke liye, main aapko Dell Inspiron 15 series ko suggest karunga. Yeh laptops budget-friendly hain aur aapke daily"
     },
     {
         "user": "care",
-        "assistant": "I'm sorry, but I can't assist with that request. If you have any other questions or need help with something else, feel free to ask!"
+        "assistant": "Dell Inspiron 15 series mein aapko ek good processor, RAM, aur storage milta hai. Ismein aap laptop kaam karte samay"
     },
     {
-        "user": "create reading folder",
-        "assistant": "To create a new folder named \"Reading\" on your computer, follow these steps:\n\n1. Open File Explorer (or the Command Prompt if you're using Windows) or the Finder (macOS).\n2. Navigate to the location where you want to"
+        "user": "mujhe ek laptop kharidna hai",
+        "assistant": "Mujhe iske baare me pakka pata nahi hai."
     },
     {
-        "user": "us 131",
-        "assistant": "I'm sorry, but I can't assist with that request. If you have any other questions or need help with something else, feel free to ask!"
+        "user": "sone ka rate",
+        "assistant": "Sone ka rate bahut badal sakta hai, lekin aaj ke samay mein sone ki kisam ke hisab se yeh raha hai"
+    },
+    {
+        "user": "You are SAMA.\n\nUsing the search results below, answer the user's question naturally in Hinglish.\n\nUser Question:\nlatest news\n\nSearch Results:\nLatest Version of the Truth\nLatest Version of the Truth is the fourth full-length album by Swedish heavy metal band Mustasch. It was released in 2007.\n\nLatest News\nLatest News (\u6700\u65b0\u30cb\u30e5\u30fc\u30b9, saishin ny\u016bsu) refers to the most recent and continuously updated news headlines, stories, and current events coverage, particularly as presented on Japanese media platforms. This concept encompasses real-time repor\u2026\n\nBreaking News, Latest News and Videos | CNN\nView the latest news and breaking news today for U.S., world, weather, entertainment, politics and health at CNN.com.\n\nLatest news, sport and opinion from the Guardian\nIraola era starts in style but Gomez injury deepens defensive worries. Transfer news. Arsenal make shock approach to sign Vin\u00edcius from Real Madrid.\n\nAssociated Press News: Breaking News, Latest Headlines... | AP News\nRead the latest headlines, breaking news, and videos at APNews.com, the definitive source for independent journalism from every corner of the globe.\n\nGive only the final answer.",
+        "assistant": "Sabse aage ki baat hai? Sabhi duniya ke news, politics, cricket aur entertainment ke updates milte hain CNN, Guardian aur AP News websites"
+    },
+    {
+        "user": "take",
+        "assistant": "Mujhe lagta hai tum \"take\" ka matlab kya hai? Kya tum ek film ya show dekhne ja rahe ho? Ya phir k"
+    },
+    {
+        "user": "albert einstein ke bare mein",
+        "assistant": "Albert Einstein ek prasiddh German physicist the. Usne 1905 aur 1915 mein apni pramukh theories, jaise ki special relativity"
+    },
+    {
+        "user": "define psychology",
+        "assistant": "Mujhe lagta hai \"psychology\" ka matlab kya hai? Psychology ek vishay hai jo manushy ke vichar, bhavnaon"
+    },
+    {
+        "user": "open task",
+        "assistant": "Main aapki madad karne mein asamarth hoon. Main iske baare me pakka pata nahi hoon ki aap kya open"
+    },
+    {
+        "user": "volume up",
+        "assistant": "Aur phir? Tum SAMA ho!"
+    },
+    {
+        "user": "volume up",
+        "assistant": "Main theek hoon. Tum kaise ho?"
+    },
+    {
+        "user": "volume up",
+        "assistant": "Bade volume par! Mujhe lagta hai tumne mere volume ko badal diya hai. Kya tum sahi se volume up karne mein asamarth"
+    },
+    {
+        "user": "set volume on",
+        "assistant": "Mujhe Sahil Khan ne banaya hai."
+    },
+    {
+        "user": "set volume",
+        "assistant": "Mujhe lagta hai tum mere volume ko set karna chahte ho! Main theek hoon, ab hum dono ek saath sun sakte hain"
+    },
+    {
+        "user": "python",
+        "assistant": "Python ek programming language hai jo software, website, AI aur automation banane ke kaam aati hai."
+    },
+    {
+        "user": "\u0915\u093f\u0938\u0928\u0947 \u092c\u0928\u093e\u092f\u093e \u0939\u0948",
+        "assistant": "\u092e\u0941\u091d\u0947 \u0938\u093e\u0939\u093f\u0932 \u0916\u093e\u0928 \u0928\u0947 \u092c\u0928\u093e\u092f\u093e \u0939\u0948\u0964"
     }
 ]

@@ -1,6 +1,8 @@
 import os
 import shutil
 
+from brain.nlp import extract_folder, extract_delete_folder
+
 DESKTOP = os.path.join(os.path.expanduser("~"), "Desktop")
 
 
@@ -8,35 +10,45 @@ def file_manager(command):
 
     command = command.lower().strip()
 
-    # Create Folder
-    if "create folder" in command:
+    # ==========================
+    # CREATE FOLDER
+    # ==========================
 
-        name = command.replace("create folder", "").strip()
+    if any(x in command for x in ["create", "make"]):
 
-        if not name:
-            return None
+        name = extract_folder(command)
 
-        path = os.path.join(DESKTOP, name)
+        if name:
 
-        try:
-            os.makedirs(path, exist_ok=True)
-            return f"Folder '{name}' created successfully."
+            path = os.path.join(DESKTOP, name)
 
-        except Exception as e:
-            return f"Error: {e}"
+            try:
+                os.makedirs(path, exist_ok=True)
+                return f"Folder '{name}' created successfully."
 
-    # Delete Folder
-    if "delete folder" in command:
+            except Exception as e:
+                return str(e)
 
-        name = command.replace("delete folder", "").strip()
+    # ==========================
+    # DELETE FOLDER
+    # ==========================
 
-        path = os.path.join(DESKTOP, name)
+    if any(x in command for x in ["delete", "remove"]):
 
-        try:
-            shutil.rmtree(path)
-            return f"Folder '{name}' deleted."
+        name = extract_delete_folder(command)
 
-        except Exception:
-            return "Folder not found."
+        if name:
+
+            path = os.path.join(DESKTOP, name)
+
+            try:
+                shutil.rmtree(path)
+                return f"Folder '{name}' deleted successfully."
+
+            except FileNotFoundError:
+                return f"Folder '{name}' not found."
+
+            except Exception as e:
+                return str(e)
 
     return None

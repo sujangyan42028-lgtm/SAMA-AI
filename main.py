@@ -1,8 +1,29 @@
-from core.router import start
+import sys
+import threading
+from gui.waveform import Waveform
+from PySide6.QtWidgets import QApplication
 
-print("=" * 40)
-print("        SAMA AI v8.0")
-print("=" * 40)
+from gui.main_window import MainWindow
+from core.assistant import run, set_window
+
+
+def run_assistant():
+    run()
+
 
 if __name__ == "__main__":
-    start()
+
+    app = QApplication(sys.argv)
+
+    window = MainWindow()
+    window.show()
+
+    set_window(window)
+
+    assistant = threading.Thread(
+        target=run_assistant,
+        daemon=True
+    )
+    assistant.start()
+
+    sys.exit(app.exec())

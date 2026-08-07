@@ -1,22 +1,31 @@
-import subprocess
+import asyncio
+import edge_tts
 import tempfile
-import os
 import pygame
-import time
+import os
 import threading
+import time
 
+from config import VOICE
 from utils.threading_manager import run_background
-
-ENGINE = "engine/piper.exe"
-MODEL = "engine/en_US-lessac-medium.onnx"
-CONFIG = "engine/en_US-lessac-medium.onnx.json"
-ESPEAK = "engine/espeak-ng-data"
 
 pygame.mixer.init()
 
 lock = threading.Lock()
 
 is_speaking = False
+
+
+async def generate(text, output):
+
+    communicate = edge_tts.Communicate(
+        text=text,
+        voice=VOICE,
+        rate="+5%",
+        pitch="+0Hz"
+    )
+
+    await communicate.save(output)
 
 
 def speak(text):
@@ -30,44 +39,51 @@ def speak(text):
 
     print("SAMA:", text)
 
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp:
-        wav = temp.name
+    try:
 
-    result = subprocess.run(
-        [
-            ENGINE,
-            "--model", MODEL,
-            "--config", CONFIG,
-            "--espeak_data", ESPEAK,
-            "--output_file", wav
-        ],
-        input=text,
-        text=True,
-        encoding="utf-8",
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL
-    )
+        with tempfile.NamedTemporaryFile(
+            suffix=".mp3",
+            delete=False
+        ) as temp:
 
-    if result.returncode != 0:
-        return
+            mp3 = temp.name
 
-    with lock:
+        print("Generating Voice...")
 
-        is_speaking = True
+        asyncio.run(generate(text, mp3))
 
-        pygame.mixer.music.load(wav)
-        pygame.mixer.music.play()
+        print("Voice Generated:", mp3)
 
-        while pygame.mixer.music.get_busy():
-            time.sleep(0.01)
+        with lock:
+
+            is_speaking = True
+
+            print("Playing Audio...")
+
+            pygame.mixer.music.load(mp3)
+            pygame.mixer.music.play()
+
+            while pygame.mixer.music.get_busy():
+                time.sleep(0.01)
+
+            pygame.mixer.music.stop()
+            pygame.mixer.music.unload()
+
+            is_speaking = False
+
+        if os.path.exists(mp3):
+            os.remove(mp3)
+
+        print("Audio Finished.")
+
+    except Exception as e:
 
         is_speaking = False
 
-        pygame.mixer.music.stop()
-        pygame.mixer.music.unload()
-
-    if os.path.exists(wav):
-        os.remove(wav)
+        print("=" * 50)
+        print("SPEAK ERROR")
+        print(e)
+        print("=" * 50)
 
 
 def speak_async(text):
@@ -79,5 +95,7 @@ def stop_speaking():
     global is_speaking
 
     if is_speaking:
+
         pygame.mixer.music.stop()
+
         is_speaking = False
